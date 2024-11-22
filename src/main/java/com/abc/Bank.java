@@ -2,8 +2,12 @@ package com.abc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class Bank {
+
+    private static final Logger logger = Logger.getLogger(Bank.class.getName());
     private List<Customer> customers;
 
     public Bank() {
@@ -15,10 +19,10 @@ public class Bank {
     }
 
     public String customerSummary() {
-        String summary = "Customer Summary";
-        for (Customer c : customers)
-            summary += "\n - " + c.getName() + " (" + format(c.getNumberOfAccounts(), "account") + ")";
-        return summary;
+        StringBuilder summary = new StringBuilder("Customer Summary");
+        for (Customer customer : customers)
+            summary.append("\n - ").append(customer.getName()).append(" (").append(format(customer.getNumberOfAccounts(), "account")).append(")");
+        return summary.toString();
     }
 
     //Make sure correct plural of word is created based on the number passed in:
@@ -40,8 +44,8 @@ public class Bank {
                 return customers.get(0).getName();
             else
                 throw new Exception("There are no customer registered to bank!");
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception ex){
+            logger.log(Level.SEVERE, "An error occurred in fetching first customer: " + ex.getMessage(), ex);
             return "Error";
         }
     }

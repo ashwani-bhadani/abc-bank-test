@@ -29,50 +29,57 @@ public class Customer {
 
     public double totalInterestEarned() {
         double total = 0;
-        for (Account a : accounts)
-            total += a.interestEarned();
+        for (Account account : accounts)
+            total += account.interestEarned();
         return total;
     }
 
     public String getStatement() {
-        String statement = null;
-        statement = "Statement for " + name + "\n";
+        StringBuilder statement = null;
+        statement = new StringBuilder("Statement for " + name + "\n");
         double total = 0.0;
-        for (Account a : accounts) {
-            statement += "\n" + statementForAccount(a) + "\n";
-            total += a.sumTransactions();
+        for (Account account : accounts) {
+            statement.append("\n")
+                    .append(statementForAccount(account))
+                    .append("\n");
+            total += account.sumTransactions();
         }
-        statement += "\nTotal In All Accounts " + toDollars(total);
-        return statement;
+        statement.append("\nTotal In All Accounts ")
+                .append(toDollars(total));
+        return statement.toString();
     }
 
-    private String statementForAccount(Account a) {
-        String s = "";
+    private String statementForAccount(Account account) {
+        StringBuilder statement = new StringBuilder();
 
        //Translate to pretty account type
-        switch(a.getAccountType()){
+        switch(account.getAccountType()){
             case Account.CHECKING:
-                s += "Checking Account\n";
+                statement.append("Checking Account\n");
                 break;
             case Account.SAVINGS:
-                s += "Savings Account\n";
+                statement.append("Savings Account\n");
                 break;
             case Account.MAXI_SAVINGS:
-                s += "Maxi Savings Account\n";
+                statement.append("Maxi Savings Account\n");
                 break;
             case Account.SUPER_SAVINGS:
-                s += "Super Savings Account\n";
+                statement.append("Super Savings Account\n");
                 break;
         }
 
         //Now total up all the transactions
         double total = 0.0;
-        for (Transaction t : a.transactions) {
-            s += "  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + toDollars(t.amount) + "\n";
-            total += t.amount;
+        for (Transaction transaction : account.transactions) {
+            statement.append("  ")
+                    .append(transaction.amount < 0 ? "withdrawal" : "deposit")
+                    .append(" ")
+                    .append(toDollars(transaction.amount))
+                    .append("\n");
+            total += transaction.amount;
         }
-        s += "Total " + toDollars(total);
-        return s;
+        statement.append("Total ").append(toDollars(total));
+        return statement.toString();
     }
 
     private String toDollars(double d){
