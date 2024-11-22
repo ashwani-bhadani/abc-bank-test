@@ -36,8 +36,10 @@ public class Bank {
 
     public String getFirstCustomer() {
         try {
-            customers = null;
-            return customers.get(0).getName();
+            if(customers != null)
+                return customers.get(0).getName();
+            else
+                throw new Exception("There are no customer registered to bank!");
         } catch (Exception e){
             e.printStackTrace();
             return "Error";
