@@ -69,13 +69,18 @@ public class Account {
     }
 
     public double sumTransactions() {
-       return checkIfTransactionsExist(true);
+        if(transactions.isEmpty())
+            return checkIfTransactionsExist(false);
+        else 
+           return checkIfTransactionsExist(true);
     }
 
     private double checkIfTransactionsExist(boolean checkAll) {
         double amount = 0.0;
-        for (Transaction t: transactions)
-            amount += t.amount;
+        if(checkAll) {
+            for (Transaction transaction : transactions)
+                amount += transaction.amount;
+        }
         return amount;
     }
 

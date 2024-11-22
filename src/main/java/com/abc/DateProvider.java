@@ -1,5 +1,6 @@
 package com.abc;
 
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ public class DateProvider {
         return instance;
     }
 
-    public Date now() {
-        return Calendar.getInstance().getTime();
+    public ZonedDateTime now() {
+        return ZonedDateTime.now();
     }
 }
